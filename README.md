@@ -1,2 +1,3 @@
-# CashCrafter
- Finanace management System
+# Finance-Management-System
+
+JSP
