@@ -47,7 +47,7 @@
     
 %>
 <jsp:include page="header.jsp" />
-	<div class="main" style="background: #8ad0da69">
+	<div class="main" style="background: #8ad0da69; padding-bottom: 20%">
 		<!-- Account form -->
 		<section class="signup">
 			<div class="container" style="margin-top: 10%; background: #9ed7a457;">
@@ -85,17 +85,14 @@
 			</div>
 		</section>
 	</div>
-	<!-- JavaScript code -->
     <script>
         function toggleAccountNumberField() {
             var transactionType = document.getElementById("transerType").value;
             var accountNumberField = document.getElementById("account-number");
 
             if (transactionType === "withdraw") {
-                // Disable the field when "Withdraw" is selected
                 accountNumberField.disabled = true;
             } else {
-                // Enable the field for other transaction types
                 accountNumberField.disabled = false;
             }
         }

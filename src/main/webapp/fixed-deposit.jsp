@@ -41,7 +41,7 @@
     }
 %>
 <jsp:include page="header.jsp" />
-	<div class="main" style="background: #8ad0da69">
+	<div class="main" style="background: #8ad0da69; padding-bottom: 20%">
 		<section class="signup">
 			<div class="container" style="margin-top: 10%; background: #e0673424;">
 				<div class="signup-content">
@@ -49,7 +49,11 @@
 						<h2 class="form-title">Fixed Deposit Details</h2>
 						<form method="post" action="FixDepositServlet" class="register-form" id="register-form">
 							<div class="form-group">
-								<p>Account number: <%= cookieValue %> </p> 
+								<%-- <p>Account number: <%= cookieValue %> </p>  --%>
+							</div>
+							
+							<div class="form-group">
+								<p>Interest Rate: 5.5% per annum</p> 
 							</div>
 							
 							<div class="form-group">

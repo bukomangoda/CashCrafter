@@ -94,8 +94,6 @@ public class LoginServlet extends HttpServlet {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-		dispatcher.forward(request, response);
 	}
 
 	// Helper method to fetch accountType by userId

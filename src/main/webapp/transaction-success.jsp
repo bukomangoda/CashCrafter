@@ -41,7 +41,7 @@
     
 %>
 <jsp:include page="header.jsp" />
-	<div class="main" style="background: #8ad0da69">
+	<div class="main" style="background: #8ad0da69; padding-bottom: 20%">
 		<!-- Account form -->
 		<section class="signup">
 			<div class="container" style="margin-top: 10%; background: #5fff7096;">

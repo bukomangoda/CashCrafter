@@ -15,7 +15,7 @@
 </head>
 <body>
 
-	<div class="main" style="background: #8ad0da69">
+	<div class="main" style="background: #8ad0da69 ; padding-bottom: 20%">
 
 		<!-- Sign up form -->
 		<section class="signup">
@@ -69,12 +69,8 @@
 
 
 	</div>
-	<!-- JS -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="js/main.js"></script>
 
-
-
 </body>
-<!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

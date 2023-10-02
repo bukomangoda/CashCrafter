@@ -6,7 +6,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -16,6 +18,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @WebServlet("/ServletTransactions")
 public class ServletTransactions extends HttpServlet {
@@ -79,6 +85,73 @@ public class ServletTransactions extends HttpServlet {
                 }
             }
         }
+    }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Map<String, String> userInfo = getUserInfoFromCookies(request);
+
+        String userId = userInfo.get("userId");
+
+        Connection con = null;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/financial_management_db", "root", "");
+
+                // Get all transactions for the user
+                List<Transaction> transactionHistory = getAllTransactionsForUser(con, userId);
+                JSONArray jsonArray = new JSONArray();
+                for (Transaction transaction : transactionHistory) {
+                    JSONObject transactionJson = new JSONObject();
+                    transactionJson.put("transactionId", transaction.getTransactionId());
+                    transactionJson.put("transactionType", transaction.getTransactionType());
+                    transactionJson.put("transferFrom", transaction.getTransferFrom());
+                    transactionJson.put("date", transaction.getDate().toString());
+                    transactionJson.put("amount", transaction.getAmount());
+                    jsonArray.put(transactionJson);
+                }
+
+                response.setContentType("application/json");
+                response.getWriter().write(jsonArray.toString());
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            response.getWriter().write("An error occurred while processing your request.");
+        } catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    private List<Transaction> getAllTransactionsForUser(Connection con, String userId) {
+        List<Transaction> transactionHistory = new ArrayList<>();
+        try (PreparedStatement stmt = con.prepareStatement("SELECT * FROM transactions WHERE user_id = ?")) {
+            stmt.setString(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Transaction transaction = new Transaction();
+                    transaction.setTransactionId(rs.getString("transaction_id"));
+                    transaction.setTransactionType(rs.getString("transaction_type"));
+                    transaction.setTransferFrom(rs.getString("transfer_from"));
+                    transaction.setDate(rs.getTimestamp("date"));
+                    transaction.setAmount(rs.getDouble("amount"));
+                    transactionHistory.add(transaction);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactionHistory;
     }
 
     private Map<String, String> getUserInfoFromCookies(HttpServletRequest request) {

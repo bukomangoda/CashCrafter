@@ -28,30 +28,25 @@ public class BalanceInquiryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Map<String, String> userInfo = getUserInfoFromCookies(request);
-        
         String userAccountNumber = userInfo.get("accountNumber");
-        
-	    RequestDispatcher dispatcher = null;
         Connection con = null;
-        
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
-
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/financial_management_db", "root", "");
+
             if (userAccountNumber != null) {
-                // Retrieve account type and balance using separate methods
                 double balance = getBalance(con, userAccountNumber);
                 String balanceStr = String.valueOf(balance);
-
-                request.setAttribute("balance", balanceStr);
-                dispatcher = request.getRequestDispatcher("balance-inquiry.jsp");
-    	        dispatcher.forward(request, response);
-                
+                response.setContentType("text/plain");
+                response.getWriter().write(balanceStr);
             } else {
+                response.setContentType("text/plain");
                 response.getWriter().write("Account number not found in cookies.");
             }
-        }catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            response.setContentType("text/plain");
             response.getWriter().write("An error occurred while processing your request.");
         } finally {
             if (con != null) {
@@ -62,7 +57,6 @@ public class BalanceInquiryServlet extends HttpServlet {
                 }
             }
         }
-
     }
 
     // Method to retrieve balance based on account number

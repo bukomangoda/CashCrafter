@@ -40,7 +40,7 @@ public class LoanPaymentServlet extends HttpServlet {
                 double amount = Double.parseDouble(request.getParameter("amount"));
                 
                 performLoanPayment(con, userId, userAccountNumber, amount);
-	            dispatcher = request.getRequestDispatcher("loan-payment.jsp");
+	            dispatcher = request.getRequestDispatcher("balance-inquiry.jsp");
 		        dispatcher.forward(request, response);
 	        } catch (ClassNotFoundException | SQLException e) {
 	            e.printStackTrace();

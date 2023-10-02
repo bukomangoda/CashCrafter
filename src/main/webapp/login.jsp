@@ -15,9 +15,8 @@
 </head>
 <body>
 
-	<div class="main" style="background: #8ad0da69">
+	<div class="main" style="background: #8ad0da69; padding-bottom: 20%">
 
-		<!-- Sing in  Form -->
 		<section class="sign-in">
 			<div class="container" style="margin-top:5%">
 				<div class="signin-content">
@@ -55,7 +54,6 @@
 
 	</div>
 
-	<!-- JS -->
 	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="js/main.js"></script>
 	

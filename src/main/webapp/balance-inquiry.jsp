@@ -24,7 +24,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/style.css">    
+    <link rel="stylesheet" href="css/style.css">   
+    
+    <script>
+		$(document).ready(function() {
+		    $.ajax({
+		        url: "BalanceInquiryServlet",
+		        method: "GET",
+		        success: function(data) {
+		            $("#accountBalance").text(data);
+		        },
+		        error: function() {
+		            $("#accountBalance").text("Error fetching balance.");
+		        }
+		    });
+		});
+	</script>
+     
 </head>
 
 <body>
@@ -35,9 +51,11 @@
 
     String usernameCookieName = "username";
     String accountNumberCookieName = "accountNumber";
+    String accountTypeCookieName = "accountType";
 
     String usernameCookieValue = null;
     String cookieValue = null;
+    String accountType = null;
 
     if (cookies != null) {
         for (Cookie cookie : cookies) {
@@ -47,33 +65,37 @@
             if (cookie.getName().equals(accountNumberCookieName)) {
                 cookieValue = cookie.getValue();
             }
+            if (cookie.getName().equals(accountTypeCookieName)) {
+                accountType = cookie.getValue();
+            }
         }
     }
-
-    if (usernameCookieValue == null) {
-    	 response.sendRedirect("login.jsp");
-    }
-    
-%>
+%> 
         
 <jsp:include page="header.jsp" />
-<div class="main" style="background: #8ad0da69">
-    <!-- Account form -->
+<div class="main" style="background: #8ad0da69; padding-bottom: 20%">
     <section class="signup">
         <div class="container" style="margin-top: 10%; background: #efe5b14a;">
             <div class="signup-content">
                 <div class="signup-form">
                     <h2 class="form-title" style="text-align: center;">Balance Inquiry</h2>
+
                     <form method="get" class="register-form" action="BalanceInquiryServlet" id="register-form" style="padding-top: 10%; text-align: center;">
                         <div class="form-group">
                             <p>Account number: <%= cookieValue %></p>
                         </div>
+                        
+                        <% if ("savings".equals(accountType)) { %>
+                                                    
                         <div class="form-group">
-                            <p>Account balance: <%= request.getAttribute("balance") %></p>
-                        </div>    
-                        <div class="form-group form-button">
-                            <input type="submit" name="signin" id="signin" class="form-submit" value="Get Balance" />
-                        </div>                
+                            <p>Total Interest Earned: <span id="totalInterestEarned"></span></p>
+                        </div>
+                        <% } %>
+                        
+                        <div class="form-group">
+                            <p>Account balance: $ <span id="accountBalance"></span></p>
+                        </div>  
+              
                     </form>
                 </div>
                 <div class="signup-image" style="margin-top: 80px; text-align: center;">

@@ -24,31 +24,8 @@
 </head>
 
 <body>
-<%-- <%
-    HttpServletRequest newRequest = (HttpServletRequest) pageContext.getRequest();
-
-    Cookie[] cookies = newRequest.getCookies();
-
-    String usernameCookieName = "username";
-
-    String usernameCookieValue = null;
-
-    if (cookies != null) {
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(usernameCookieName)) {
-                usernameCookieValue = cookie.getValue();
-            }  
-        }
-    }
-
-    if (usernameCookieValue == null) {
-    	 response.sendRedirect("login.jsp");
-    }
-    
-%> --%>
  <jsp:include page="header.jsp" />
-	<div class="main" style="background: #8ad0da69">
-		<!-- Account form -->
+	<div class="main" style="background: #8ad0da69; padding-bottom: 20%">
 		<section class="signup">
 			<div class="container" style="margin-top: 10%; background: #4b6e7942;">
 				<div class="signup-content">
@@ -66,6 +43,11 @@
 							<span id="fixedDepositMessage" style="display: none; color: red;">
     							<small>*Fixed deposits are for (12) months. 5.5% interest per annum will be added.</small>
 							</span>
+							
+							<span id="savingsMessage" style="display: none; color: red;">
+    							<small>*Interest rate will be 4%. Calculated monthly.</small>
+							</span>
+							
 
 							<div class="form-group" style="margin-top: 25px">
 								<label for="deposit-amount"><i class="zmdi zmdi-money-box zmdi-hc-2x px-1"></i></label> 
@@ -93,13 +75,27 @@
 	        var fixedDepositMessageDiv = document.getElementById("fixedDepositMessage");
 	
 	        if (accountType === "fd") {
-	            // Show the message if "Fixed Deposits" is selected
+	            
 	            fixedDepositMessageDiv.style.display = "block";
 	        } else {
-	            // Hide the message for other account types
+	            
 	            fixedDepositMessageDiv.style.display = "none";
 	        }
+	        
+			var savingsMessageDiv = document.getElementById("savingsMessage");
+	    	
+	    	if (accountType === "savings") {
+	    		savingsMessageDiv.style.display = "block";
+	    	} else {
+	    		savingsMessageDiv.style.display = "none";
+	    	}
+	    	
+	    	if (accountType === "loans") {
+	    		savingsMessageDiv.style.display = "none";
+	    		fixedDepositMessageDiv.style.display = "none";	
+	    	}
 	    }
+	    
 	</script>
 	
 </body>

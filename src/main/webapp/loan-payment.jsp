@@ -52,8 +52,7 @@
     
 %>
 <jsp:include page="header.jsp" />
-	<div class="main" style="background: #8ad0da69">
-		<!-- Account form -->
+	<div class="main" style="background: #8ad0da69; padding-bottom: 20%">
 		<section class="signup">
 			<div class="container" style="margin-top: 10%; background: #74e03424;">
 				<div class="signup-content">
@@ -70,7 +69,7 @@
 							</div>
 							<div class="form-group form-button">
 								<input type="submit" name="signup" id="signup"
-									class="form-submit" value="Submit" />
+									class="form-submit" value="Pay" />
 							</div>
 						</form>
 					</div>
